@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<title>Kalkulator VS Code</title>
+<style>
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background: #202020;
+        font-family: Arial, sans-serif;
+    }
+    .calculator {
+        background: #2e2e2e;
+        padding: 20px;
+        border-radius: 12px;
+        width: 280px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+    #display {
+        width: 100%;
+        height: 55px;
+        background: #000;
+        color: #0f0;
+        font-size: 26px;
+        text-align: right;
+        border: none;
+        border-radius: 8px;
+        padding: 8px;
+        box-sizing: border-box;
+        margin-bottom: 12px;
+    }
+    .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+    }
+    button {
+        height: 55px;
+        font-size: 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background: #444;
+        color: white;
+    }
+    button:hover {
+        background: #555;
+    }
+    .op {
+        background: #ff9500;
+    }
+    .op:hover {
+        background: #ffb03a;
+    }
+    .clear {
+        background: #ff3b30;
+    }
+    .clear:hover {
+        background: #ff5e57;
+    }
+    .del {
+        background: #ff9500;
+    }
+</style>
+</head>
+<body>
+
+<div class="calculator">
+    <input type="text" id="display" disabled>
+    <div class="buttons">
+        <button class="clear" onclick="clearEntry()">C</button>
+        <button class="del" onclick="clearAll()">DEL</button>
+        <button class="op" onclick="appendValue('/')">:</button>
+        <button class="op" onclick="appendValue('*')">x</button>
+        
+        <button onclick="appendValue('7')">7</button>
+        <button onclick="appendValue('8')">8</button>
+        <button onclick="appendValue('9')">9</button>
+        <button class="op" onclick="appendValue('-')">-</button>
+        
+        <button onclick="appendValue('4')">4</button>
+        <button onclick="appendValue('5')">5</button>
+        <button onclick="appendValue('6')">6</button>
+        <button class="op" onclick="appendValue('+')">+</button>
+        
+        <button onclick="appendValue('1')">1</button>
+        <button onclick="appendValue('2')">2</button>
+        <button onclick="appendValue('3')">3</button>
+        <button onclick="appendValue('.')">.</button>
+        
+        <button onclick="appendValue('0')" style="grid-column: span 2;">0</button>
+        <button class="op" onclick="calculate()" style="grid-column: span 2;">=</button>
+    </div>
+</div>
+
+<script>
+    const display = document.getElementById('display');
+
+    function appendValue(val) {
+        display.value += val;
+    }
+
+    function clearEntry() {
+        display.value = display.value.slice(0, -1); // hapus 1 karakter
+    }
+
+    function clearAll() {
+        display.value = ''; // hapus semua
+    }
+
+    function calculate() {
+        try {
+            display.value = eval(display.value);
+        } catch {
+            display.value = 'Error';
+        }
+    }
+
+    // Support keyboard
+    document.addEventListener('keydown', (e) => {
+        if ((e.key >= '0' && e.key <= '9') || ['+', '-', '*', '/', '.'].includes(e.key)) {
+            appendValue(e.key);
+        }
+        if (e.key === 'Enter') calculate();
+        if (e.key === 'Backspace') clearEntry();
+        if (e.key === 'Escape') clearAll();
+    });
+</script>
+
+</body>
+</html>
